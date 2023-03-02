@@ -6,6 +6,7 @@ use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ApiResource]
@@ -25,7 +26,7 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $published = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\ManyToOne(targetEntity: User::class),Column(length: 255)]
     private ?string $author = null;
 
     #[ORM\Column(length: 100)]
@@ -68,18 +69,6 @@ class Post
     public function setPublished(\DateTimeInterface $published): self
     {
         $this->published = $published;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
 
         return $this;
     }
